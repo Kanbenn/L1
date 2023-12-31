@@ -5,11 +5,20 @@ import (
 	"reflect"
 )
 
+type storer interface {
+	Lol()
+}
+
+type loler struct{}
+
+func (l loler) Lol() { fmt.Println("Lol") }
+
 func main() {
 	ch := make(chan int)
-	arr := []interface{}{1, "string", true, 0.5, ch}
+	lol := loler{}
+	var st = storer(lol)
+	arr := []any{1, "string", true, 0.5, ch, lol, st}
 	for _, i := range arr {
-		fmt.Println(reflect.TypeOf(i))
 		switch i.(type) {
 		case int:
 			fmt.Println("Int")
@@ -19,8 +28,8 @@ func main() {
 			fmt.Println("Bool")
 		case float64:
 			fmt.Println("Float64")
-		case chan int:
-			fmt.Println("Chan int")
+		default:
+			fmt.Println("unexpected type:", reflect.TypeOf(i))
 		}
 	}
 }
