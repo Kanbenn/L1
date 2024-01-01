@@ -3,18 +3,17 @@ package main
 import "fmt"
 
 func main() {
-	a := 5
-	b := 10
-	a, b = b, a
-	fmt.Println(a, b)
-	x := 1
-	y := 3
-	swap(&x, &y)
-	fmt.Println(x, y)
+	a, b := 5, 10
+	fmt.Println("a and b before swap:", a, b)
+	genericSwap(&a, &b)
+	fmt.Println("a and b after  swap:", a, b)
+
+	s1, s2 := "left", "right"
+	fmt.Println("s1 and s2 before swap:", s1, s2)
+	genericSwap(&s1, &s2)
+	fmt.Println("s1 and s2 after  swap:", s1, s2)
 }
 
-func swap(x *int, y *int) {
-	temp := *y // сохраняет значение по адресу *y в переменную
-	*y = *x    // присваиваем значение по адресу *x значению по адресу *y
-	*x = temp  // присваиваем значению по адресу *x значение temp
+func genericSwap[T any](left, right *T) {
+	*left, *right = *right, *left
 }
